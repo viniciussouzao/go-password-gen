@@ -105,3 +105,159 @@ func TestGenerate(t *testing.T) {
 		}
 	})
 }
+
+// Test GenerateCustom function
+func TestGenerateCustom(t *testing.T) {
+	// Test case 1: Valid inputs
+	t.Run("generate password with valid inputs", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+	})
+
+	// Verify the length of the generated password
+	t.Run("verify the length of the generated password", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+
+		if len(password) != 12 {
+			t.Errorf("Expected password length to be 12, got: %d", len(password))
+		}
+	})
+
+	// Verify the number of numbers in the password
+	t.Run("verify the number of numbers in the password", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+
+		if strings.ContainsAny(password, Numerals) {
+			nums := 0
+			for _, v := range password {
+				if strings.Contains(Numerals, string(v)) {
+					nums++
+				}
+			}
+
+			if nums != 3 {
+				t.Errorf("Expected 3 numbers in the password, got: %d", nums)
+			}
+		} else {
+			t.Errorf("Expected password to contain numbers")
+		}
+	})
+
+	// Verify the number of symbols in the password
+	t.Run("verify the number of symbols in the password", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+
+		if strings.ContainsAny(password, Symbols) {
+			symbols := 0
+			for _, v := range password {
+				if strings.Contains(Symbols, string(v)) {
+					symbols++
+				}
+			}
+
+			if symbols != 2 {
+				t.Errorf("Expected 2 symbols in the password, got: %d", symbols)
+			}
+		} else {
+			t.Errorf("Expected password to contain symbols")
+		}
+	})
+
+	// Verify the number of uppercase letters in the password
+	t.Run("verify the number of uppercase letters in the password", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+
+		if strings.ContainsAny(password, LettersUpper) {
+			upper := 0
+			for _, v := range password {
+				if strings.Contains(LettersUpper, string(v)) {
+					upper++
+				}
+			}
+
+			if upper != 2 {
+				t.Errorf("Expected 2 uppercase letters in the password, got: %d", upper)
+			}
+		} else {
+			t.Errorf("Expected password to contain uppercase letters")
+		}
+
+	})
+
+	// Verify that the password contains only valid characters
+	t.Run("verify that the password contains only valid characters", func(t *testing.T) {
+		password, err := GenerateCustom(12, 3, 2, 2)
+		if err != nil {
+			t.Errorf("Expected no error, got: %v", err)
+		}
+
+		t.Log("Generated password:", password)
+
+		if !strings.ContainsAny(password, LettersLower+LettersUpper+Numerals+Symbols) {
+			t.Errorf("Expected password to contain only valid characters")
+		} else {
+			t.Log("Password contains only valid characters")
+		}
+	})
+
+	// Test case 2: Invalid length
+	t.Run("generate password with invalid length", func(t *testing.T) {
+		_, err := GenerateCustom(0, 3, 2, 2)
+		if err != ErrorLength {
+			t.Errorf("Expected error ErrorLength, got: %v", err)
+		}
+
+		if err != ErrorLength {
+			t.Errorf("Expected error ErrorLength, got: %v", err)
+		}
+
+	})
+
+	// Test case 3: Invalid count of numbers
+	t.Run("generate password with invalid count of numbers", func(t *testing.T) {
+		_, err := GenerateCustom(10, 12, 2, 2)
+		if err != ErrorNumbersMoreThanLength {
+			t.Errorf("Expected error ErrorNumbersMoreThanLength, got: %v", err)
+		}
+	})
+
+	// Test case 4: Invalid count of symbols
+	t.Run("generate password with invalid count of symbols", func(t *testing.T) {
+		_, err := GenerateCustom(10, 3, 15, 2)
+		if err != ErrorSymbolsMoreThanLength {
+			t.Errorf("Expected error ErrorSymbolsMoreThanLength, got: %v", err)
+		}
+	})
+
+	// Test case 5: Invalid count of uppercase letters
+	t.Run("generate password with invalid count of uppercase letters", func(t *testing.T) {
+		_, err := GenerateCustom(10, 3, 2, 20)
+		if err != ErrorUpperCaseMoreThanLength {
+			t.Errorf("Expected error ErrorUpperCaseMoreThanLength, got: %v", err)
+		}
+	})
+}
