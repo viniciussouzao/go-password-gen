@@ -40,4 +40,12 @@ func main() {
 
 	fmt.Println("Password generated without numbers, symbols and uppercase letters:", pass)
 
+	//Generate a password with GenerateCustom function
+	pass, err = password.GenerateCustom(16, 4, 2, 1) // In this case the password will have 16 characters, 4 numbers, 2 symbols and 1 uppercase letter
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Password generated with GenerateCustom function:", pass)
+
 }
