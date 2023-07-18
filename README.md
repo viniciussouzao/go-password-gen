@@ -39,6 +39,14 @@ func main() {
 	}
 
 	fmt.Println(pass)
+
+	//Generate a custom password with 22 characters, with 3 numbers and 1 symbol and 4 uppercase letters
+	pass, err = password.GenerateCustom(22, 3, 1, 4)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(pass)
 }
     
 ```
